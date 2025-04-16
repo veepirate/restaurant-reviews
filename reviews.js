@@ -15,6 +15,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+document.getElementById("show-all-btn").addEventListener("click", () => {
+  document.querySelectorAll(".review").forEach(r => r.style.display = "block");
+});
+
+function showOnlyReviewsFor(name) {
+  const reviews = document.querySelectorAll(".review");
+  reviews.forEach(r => {
+    const title = r.querySelector("h3")?.innerText || "";
+    r.style.display = title === name ? "block" : "none";
+  });
+
+  // Optional: scroll to the review section
+  document.getElementById("reviews-container").scrollIntoView({ behavior: "smooth" });
+}
+
 // Load reviews
 async function loadReviews() {
   const container = document.getElementById("reviews-container");
@@ -27,6 +42,14 @@ async function loadReviews() {
 
   snapshot.forEach(doc => {
     const data = doc.data();
+
+    document.querySelectorAll(".restaurant-link").forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const selected = link.dataset.name;
+        showOnlyReviewsFor(selected);
+      });
+    });
 
     // Group reviews by restaurant name
     if (!reviewsByRestaurant[data.restaurant]) {
@@ -56,17 +79,41 @@ async function loadReviews() {
     container.appendChild(reviewDiv);
   });
 
-  // 👉 Now build the summary view
-  const summaryHTML = Object.entries(reviewsByRestaurant).map(([restaurant, reviews]) => {
-    const avgRating = (reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length).toFixed(1);
-    return `<div><strong>${restaurant}</strong>: ${avgRating} ★ (${reviews.length} review${reviews.length > 1 ? 's' : ''})</div>`;
-  }).join("");
+  const summaryHTML = Object.entries(reviewsByRestaurant)
+  .map(([restaurant, reviews]) => {
+    const avg = reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length;
+    const avgRating = avg.toFixed(1);
 
-  summaryContainer.innerHTML = `
-    <h2>📈 Average Ratings by Restaurant</h2>
-    ${summaryHTML}
-    <hr>
-  `;
+    let emoji = "😐";
+    if (avg >= 4.5) emoji = "🥇";
+    else if (avg >= 4.0) emoji = "🌟";
+    else if (avg >= 3.0) emoji = "🙂";
+    else if (avg >= 2.0) emoji = "😕";
+    else emoji = "😬";
+
+    return {
+      name: restaurant,
+      avgRating: parseFloat(avgRating),
+      count: reviews.length,
+      emoji
+    };
+  })
+  .sort((a, b) => b.avgRating - a.avgRating) // 🔽 sort by avgRating
+  .map(entry => `
+    <div class="summary-row">
+      <a href="#" class="restaurant-link" data-name="${entry.name}">
+        <strong>${entry.name}</strong>
+      </a>:
+      ${entry.avgRating} ★ ${entry.emoji} (${entry.count} review${entry.count > 1 ? 's' : ''})
+    </div>
+  `).join("");
+
+summaryContainer.innerHTML = `
+  <h2>📈 Average Ratings by Restaurant</h2>
+  ${summaryHTML}
+  <hr>
+`;
+
 }
 
 loadReviews();

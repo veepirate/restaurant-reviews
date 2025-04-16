@@ -122,3 +122,17 @@ body {
     margin: 0.4rem 0;
   }
   
+  .summary-row {
+    margin: 0.4rem 0;
+  }
+  
+  .restaurant-link {
+    color: #6a4c93;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .restaurant-link:hover {
+    color: #9a4d9e;
+  }
+  
