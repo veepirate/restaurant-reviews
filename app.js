@@ -85,6 +85,11 @@ restaurantSelect.addEventListener("change", () => {
 });
 
 
+// Optional: Save new restaurant to collection
+if (restaurantSelect.value === "other" && restaurant) {
+  await addDoc(collection(db, "restaurants"), { name: restaurant });
+}
+
 
 // Add variable to hold user
 let currentUser = null;
@@ -122,10 +127,6 @@ if (!currentUser) {
   return;
 }
 
-// Optional: Save new restaurant to collection
-if (restaurantSelect.value === "other" && restaurant) {
-  await addDoc(collection(db, "restaurants"), { name: restaurant });
-}
 
 const reviewData = {
   restaurant,
