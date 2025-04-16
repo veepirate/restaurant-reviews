@@ -16,14 +16,9 @@ const reviewForm = document.getElementById("review-form");
 // Auth handlers
 function googleLogin() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider)
-    .then(result => {
-      statusDiv.innerText = `Logged in as ${result.user.displayName}`;
-    })
-    .catch(err => {
-      statusDiv.innerText = err.message;
-    });
+  auth.signInWithRedirect(provider);
 }
+
 function logout() {
   auth.signOut().then(() => {
     statusDiv.innerText = "Logged out";
