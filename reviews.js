@@ -31,7 +31,9 @@ function showOnlyReviewsFor(name) {
 }
 
   document.getElementById("write-review-btn").addEventListener("click", () => {
-    const popup = window.open("submit.html", "ReviewPopup", "width=500,height=700");
+    console.log("Button clicked, trying to open popup...");
+
+    const popup = window.open("/restaurant-reviews/submit.html", "ReviewPopup", "width=500,height=700");
 
     // If popup failed to open
     if (!popup || popup.closed || typeof popup.closed === "undefined") {
