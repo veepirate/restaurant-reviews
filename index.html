@@ -15,23 +15,56 @@
   <button onclick="logout()">Logout</button>
 </div>
 
-  <!-- Review Form (Only shows if logged in) -->
-  <div id="review-form" style="display:none;">
-    <h2>Leave a Review</h2>
-    <input type="text" id="restaurant" placeholder="Restaurant Name">
-    <textarea id="review" placeholder="Your review here..."></textarea>
-    <button onclick="submitReview()">Submit</button>
+<div id="review-form" style="display:none;">
+  <h2>Leave a Review</h2>
+
+  <label>Restaurant Name</label>
+  <input type="text" id="restaurant" placeholder="e.g. Taco Palace" required>
+
+  <label>Rating</label>
+  <div id="stars">
+    <span data-value="1">★</span>
+    <span data-value="2">★</span>
+    <span data-value="3">★</span>
+    <span data-value="4">★</span>
+    <span data-value="5">★</span>
   </div>
 
-  <div id="review-form" style="display:none;">
-  <h2>Leave a Review</h2>
-  <input type="text" id="restaurant" placeholder="Restaurant Name">
-  <textarea id="review" placeholder="Your review here..."></textarea>
+  <label>Food Quality</label>
+  <select id="food-quality">
+    <option value="">Select</option>
+    <option value="Excellent">Excellent</option>
+    <option value="Good">Good</option>
+    <option value="Okay">Okay</option>
+    <option value="Bad">Bad</option>
+  </select>
+
+  <label>Service</label>
+  <select id="service">
+    <option value="">Select</option>
+    <option value="Excellent">Excellent</option>
+    <option value="Good">Good</option>
+    <option value="Okay">Okay</option>
+    <option value="Bad">Bad</option>
+  </select>
+
+  <label>Atmosphere</label>
+  <select id="atmosphere">
+    <option value="">Select</option>
+    <option value="Cozy">Cozy</option>
+    <option value="Trendy">Trendy</option>
+    <option value="Noisy">Noisy</option>
+    <option value="Chill">Chill</option>
+  </select>
+
+  <label>Additional Comments</label>
+  <textarea id="review" placeholder="Write your thoughts..."></textarea>
+
   <button onclick="submitReview()">Submit</button>
 
-  <!-- Add this link to navigate to the All Reviews page -->
   <p><a href="reviews.html">See all reviews</a></p>
 </div>
+
 
 
   <div id="status"></div>
