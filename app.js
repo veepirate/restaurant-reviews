@@ -48,6 +48,13 @@ function logout() {
 const restaurantSelect = document.getElementById("restaurant");
 const otherInput = document.getElementById("restaurant-other");
 
+restaurantSelect.addEventListener("change", () => {
+  otherInput.style.display = restaurantSelect.value === "other" ? "block" : "none";
+});
+
+await addDoc(collection(db, "restaurants"), { name: "Pizza Hut" });
+
+
 async function loadRestaurantOptions() {
 
   
@@ -79,10 +86,6 @@ async function loadRestaurantOptions() {
 
 loadRestaurantOptions();
 
-// Show/hide "Other" input
-restaurantSelect.addEventListener("change", () => {
-  otherInput.style.display = restaurantSelect.value === "other" ? "block" : "none";
-});
 
 
 // Optional: Save new restaurant to collection
@@ -109,9 +112,8 @@ onAuthStateChanged(auth, user => {
 
 // ✍️ Submit review
 function submitReview() {
-  const restaurant = restaurantSelect.value === "other"
-  ? otherInput.value.trim()
-  : restaurantSelect.value;
+  const selected = restaurantSelect.value;
+  const restaurant = selected === "other" ? otherInput.value.trim() : selected;
   const reviewText = document.getElementById("review").value;
   const foodQuality = document.getElementById("food-quality").value;
   const service = document.getElementById("service").value;
@@ -124,6 +126,11 @@ function submitReview() {
 
 if (!currentUser) {
   statusDiv.innerText = "❗ You must be logged in to submit a review.";
+  return;
+}
+
+if (!restaurant) {
+  alert("Please select or enter a restaurant.");
   return;
 }
 
