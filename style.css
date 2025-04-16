@@ -106,4 +106,19 @@ body {
     vertical-align: middle;
     margin-right: 8px;
   }
+
+  #rating-summary {
+    max-width: 600px;
+    margin: auto;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #fcd5ce;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #4d4d4d;
+  }
+  
+  #rating-summary div {
+    margin: 0.4rem 0;
+  }
   

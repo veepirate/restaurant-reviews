@@ -18,34 +18,55 @@ const db = getFirestore(app);
 // Load reviews
 async function loadReviews() {
   const container = document.getElementById("reviews-container");
+  const summaryContainer = document.getElementById("rating-summary");
+
   const q = query(collection(db, "reviews"), orderBy("timestamp", "desc"));
   const snapshot = await getDocs(q);
+
+  const reviewsByRestaurant = {};
 
   snapshot.forEach(doc => {
     const data = doc.data();
 
+    // Group reviews by restaurant name
+    if (!reviewsByRestaurant[data.restaurant]) {
+      reviewsByRestaurant[data.restaurant] = [];
+    }
+    reviewsByRestaurant[data.restaurant].push(data);
+
+    // Display individual review card (same as before)
     const reviewDiv = document.createElement("div");
     reviewDiv.className = "review";
-
     const stars = "★".repeat(data.rating || 0) + "☆".repeat(5 - (data.rating || 0));
 
     reviewDiv.innerHTML = `
       <h3>${data.restaurant}</h3>
       <div class="stars">${stars}</div>
       <div class="meta">
-        ${data.user?.photo ? `<img src="${data.user.photo}" alt="profile" class="profile-pic">` : ""}
-        <strong>${data.user?.name || "Anonymous"}</strong> • ${data.user?.email}
-        <br>
-        <small>${data.timestamp?.toDate().toLocaleString() || "Unknown date"}</small>
+        ${data.user?.photo ? `<img src="${data.user.photo}" class="profile-pic">` : ""}
+        <strong>${data.user?.name || "Anonymous"}</strong> • ${data.user?.email || ""}
+        <br><small>${data.timestamp?.toDate().toLocaleString() || "Unknown date"}</small>
       </div>
-      <div class="detail"><strong>Food Quality:</strong> ${data.foodQuality}</div>
-      <div class="detail"><strong>Service:</strong> ${data.service}</div>
-      <div class="detail"><strong>Atmosphere:</strong> ${data.atmosphere}</div>
+      <div class="detail"><strong>Food Quality:</strong> ${data.foodQuality || "-"}</div>
+      <div class="detail"><strong>Service:</strong> ${data.service || "-"}</div>
+      <div class="detail"><strong>Atmosphere:</strong> ${data.atmosphere || "-"}</div>
       ${data.review ? `<div class="detail"><strong>Comments:</strong> ${data.review}</div>` : ""}
     `;
 
     container.appendChild(reviewDiv);
   });
+
+  // 👉 Now build the summary view
+  const summaryHTML = Object.entries(reviewsByRestaurant).map(([restaurant, reviews]) => {
+    const avgRating = (reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length).toFixed(1);
+    return `<div><strong>${restaurant}</strong>: ${avgRating} ★ (${reviews.length} review${reviews.length > 1 ? 's' : ''})</div>`;
+  }).join("");
+
+  summaryContainer.innerHTML = `
+    <h2>📈 Average Ratings by Restaurant</h2>
+    ${summaryHTML}
+    <hr>
+  `;
 }
 
 loadReviews();
