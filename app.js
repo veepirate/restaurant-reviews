@@ -77,3 +77,29 @@ function submitReview() {
 window.googleLogin = googleLogin;
 window.logout = logout;
 window.submitReview = submitReview;
+
+
+let selectedRating = 0;
+
+document.querySelectorAll('#stars span').forEach(star => {
+  star.addEventListener('mouseover', () => {
+    const val = parseInt(star.dataset.value);
+    highlightStars(val);
+  });
+  star.addEventListener('mouseout', () => {
+    highlightStars(selectedRating);
+  });
+  star.addEventListener('click', () => {
+    selectedRating = parseInt(star.dataset.value);
+    highlightStars(selectedRating);
+  });
+});
+
+function highlightStars(value) {
+  document.querySelectorAll('#stars span').forEach(star => {
+    const starVal = parseInt(star.dataset.value);
+    star.classList.toggle('hovered', starVal <= value);
+    star.classList.toggle('selected', starVal <= selectedRating);
+  });
+}
+
