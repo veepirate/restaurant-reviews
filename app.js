@@ -3,6 +3,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebas
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+import { getDocs} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
 // 🔥 Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDf0IbhEaZnjcX16_Hf09jZZW-JfPPu1lI",
@@ -42,7 +44,6 @@ function logout() {
   });
 }
 
-import { getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const restaurantSelect = document.getElementById("restaurant");
 const otherInput = document.getElementById("restaurant-other");
