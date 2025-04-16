@@ -49,29 +49,47 @@ select.addEventListener("change", () => {
   otherInput.style.display = select.value === "other" ? "block" : "none";
 });
 
+import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-import { getDocs, collection } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+const restaurantSelect = document.getElementById("restaurant");
+const otherInput = document.getElementById("restaurant-other");
 
 async function loadRestaurantOptions() {
-  const snapshot = await getDocs(collection(db, "restaurants"));
 
-  const restaurantSelect = document.getElementById("restaurant");
+  
+  try {
+    console.log("Loading restaurants...");
+    const snapshot = await getDocs(collection(db, "restaurants"));
+    console.log("Snapshot size:", snapshot.size);
 
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    const option = document.createElement("option");
-    option.value = data.name;
-    option.innerText = data.name;
-    restaurantSelect.appendChild(option);
-  });
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      if (data.name) {
+        const option = document.createElement("option");
+        option.value = data.name;
+        option.innerText = data.name;
+        restaurantSelect.appendChild(option);
+      }
+    });
 
-  const otherOption = document.createElement("option");
-  otherOption.value = "other";
-  otherOption.innerText = "➕ Other...";
-  restaurantSelect.appendChild(otherOption);
+    // Add "Other..." option at end
+    const otherOption = document.createElement("option");
+    otherOption.value = "other";
+    otherOption.innerText = "➕ Other...";
+    restaurantSelect.appendChild(otherOption);
+
+  } catch (error) {
+    console.error("Failed to load restaurants:", error);
+  }
 }
 
 loadRestaurantOptions();
+
+// Show/hide "Other" input
+restaurantSelect.addEventListener("change", () => {
+  otherInput.style.display = restaurantSelect.value === "other" ? "block" : "none";
+});
+
 
 
 // Add variable to hold user
