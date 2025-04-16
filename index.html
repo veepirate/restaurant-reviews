@@ -2,82 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Restaurant Reviews</title>
-  <script type="module" src="app.js"></script> <!-- Use type="module" -->
+  <title>All Reviews</title>
+  <script type="module" src="reviews.js"></script>
   <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
-  <h1>🍽️ Restaurant Reviews</h1>
+  <h1>🍽️ All Restaurant Reviews</h1>
+  <div id="rating-summary"></div>
 
-<!-- Google Login -->
-<div id="auth">
-  <button onclick="googleLogin()">Login with Google</button>
-  <button onclick="logout()">Logout</button>
-</div>
+  <button id="write-review-btn">📝 Write a Review</button>
 
-<div id="review-form" style="display:none;">
-  <h2>Leave a Review</h2>
-
-  <label>Restaurant Name</label>
-  <select id="restaurant" required>
-    <option value="">🍽️ Select a restaurant</option>
-  </select>
-  <input type="text" id="restaurant-other" placeholder="Or enter new restaurant..." style="display:none; margin-top: 0.5rem;">
-  
-
-
-  <label>Rating</label>
-  <div id="stars">
-    <span data-value="1">★</span>
-    <span data-value="2">★</span>
-    <span data-value="3">★</span>
-    <span data-value="4">★</span>
-    <span data-value="5">★</span>
-  </div>
-
-  <label>Food Quality</label>
-  <select id="food-quality">
-    <option value="">Select</option>
-    <option value="Excellent">Excellent</option>
-    <option value="Good">Good</option>
-    <option value="Okay">Okay</option>
-    <option value="Bad">Bad</option>
-  </select>
-
-  <label>Service</label>
-  <select id="service">
-    <option value="">Select</option>
-    <option value="Excellent">Excellent</option>
-    <option value="Good">Good</option>
-    <option value="Okay">Okay</option>
-    <option value="Bad">Bad</option>
-  </select>
-
-  <label>Atmosphere</label>
-  <select id="atmosphere">
-    <option value="">Select</option>
-    <option value="Cozy">Cozy</option>
-    <option value="Trendy">Trendy</option>
-    <option value="Noisy">Noisy</option>
-    <option value="Chill">Chill</option>
-  </select>
-
-  <label>Additional Comments</label>
-  <textarea id="review" placeholder="Write your thoughts..."></textarea>
-
-  <button onclick="submitReview()">Submit</button>
-
-  <p><a href="reviews.html">See all reviews</a></p>
-</div>
-
-
-
-  <div id="status"></div>
+  <button id="show-all-btn">🔄 Show All Reviews</button>
+  <div id="reviews-container"></div>
 </body>
-
-
-
-  
 </html>

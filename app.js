@@ -164,6 +164,10 @@ const reviewData = {
   }).catch(err => {
     statusDiv.innerText = err.message;
   });
+
+  setTimeout(() => {
+    window.close(); // close popup window
+  }, 500); // wait a moment so status message can appear
 }
 
 
@@ -197,3 +201,13 @@ function highlightStars(value) {
   });
 }
 
+document.getElementById("write-review-btn").addEventListener("click", () => {
+  const popup = window.open("submit.html", "ReviewPopup", "width=500,height=700");
+
+  const timer = setInterval(() => {
+    if (popup.closed) {
+      clearInterval(timer);
+      location.reload(); // Refresh to show new reviews
+    }
+  }, 500);
+});
