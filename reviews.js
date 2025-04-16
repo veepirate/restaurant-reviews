@@ -23,14 +23,23 @@ async function loadReviews() {
 
   snapshot.forEach(doc => {
     const data = doc.data();
-    const div = document.createElement("div");
-    div.className = "review";
-    div.innerHTML = `
+
+    const reviewDiv = document.createElement("div");
+    reviewDiv.className = "review";
+
+    const stars = "★".repeat(data.rating || 0) + "☆".repeat(5 - (data.rating || 0));
+
+    reviewDiv.innerHTML = `
       <h3>${data.restaurant}</h3>
-      <p>${data.review}</p>
-      <small>By: ${data.user} — ${data.timestamp?.toDate().toLocaleString() || 'Unknown date'}</small>
+      <div class="stars">${stars}</div>
+      <div class="meta">By: ${data.user} — ${data.timestamp?.toDate().toLocaleString() || "Unknown date"}</div>
+      <div class="detail"><strong>Food Quality:</strong> ${data.foodQuality}</div>
+      <div class="detail"><strong>Service:</strong> ${data.service}</div>
+      <div class="detail"><strong>Atmosphere:</strong> ${data.atmosphere}</div>
+      ${data.review ? `<div class="detail"><strong>Comments:</strong> ${data.review}</div>` : ""}
     `;
-    container.appendChild(div);
+
+    container.appendChild(reviewDiv);
   });
 }
 
