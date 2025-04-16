@@ -200,14 +200,3 @@ function highlightStars(value) {
     star.classList.toggle('selected', starVal <= selectedRating);
   });
 }
-
-document.getElementById("write-review-btn").addEventListener("click", () => {
-  const popup = window.open("submit.html", "ReviewPopup", "width=500,height=700");
-
-  const timer = setInterval(() => {
-    if (popup.closed) {
-      clearInterval(timer);
-      location.reload(); // Refresh to show new reviews
-    }
-  }, 500);
-});

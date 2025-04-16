@@ -30,6 +30,23 @@ function showOnlyReviewsFor(name) {
   document.getElementById("reviews-container").scrollIntoView({ behavior: "smooth" });
 }
 
+  document.getElementById("write-review-btn").addEventListener("click", () => {
+    const popup = window.open("submit.html", "ReviewPopup", "width=500,height=700");
+
+    // If popup failed to open
+    if (!popup || popup.closed || typeof popup.closed === "undefined") {
+      alert("🚫 Popup blocked! Please allow popups for this site.");
+    }
+
+    // Refresh main page when popup is closed
+    const timer = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(timer);
+        location.reload();
+      }
+    }, 500);
+  });
+
 // Load reviews
 async function loadReviews() {
   const container = document.getElementById("reviews-container");
@@ -115,5 +132,7 @@ summaryContainer.innerHTML = `
 `;
 
 }
+
+
 
 loadReviews();
