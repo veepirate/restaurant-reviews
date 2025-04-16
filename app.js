@@ -95,12 +95,6 @@ function submitReview() {
   const restaurant = restaurantSelect.value === "other"
   ? otherInput.value.trim()
   : restaurantSelect.value;
-
-// Optional: Save new restaurant to collection
-if (restaurantSelect.value === "other" && restaurant) {
-  await addDoc(collection(db, "restaurants"), { name: restaurant });
-}
-
   const reviewText = document.getElementById("review").value;
   const foodQuality = document.getElementById("food-quality").value;
   const service = document.getElementById("service").value;
@@ -114,6 +108,11 @@ if (restaurantSelect.value === "other" && restaurant) {
 if (!currentUser) {
   statusDiv.innerText = "❗ You must be logged in to submit a review.";
   return;
+}
+
+// Optional: Save new restaurant to collection
+if (restaurantSelect.value === "other" && restaurant) {
+  await addDoc(collection(db, "restaurants"), { name: restaurant });
 }
 
 const reviewData = {
