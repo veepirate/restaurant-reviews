@@ -52,11 +52,7 @@ restaurantSelect.addEventListener("change", () => {
   otherInput.style.display = restaurantSelect.value === "other" ? "block" : "none";
 });
 
-await addDoc(collection(db, "restaurants"), { name: "Pizza Hut" });
-
-
 async function loadRestaurantOptions() {
-
   
   try {
     console.log("Loading restaurants...");
