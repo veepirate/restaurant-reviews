@@ -57,21 +57,41 @@ onAuthStateChanged(auth, user => {
 function submitReview() {
   const restaurant = document.getElementById("restaurant").value;
   const reviewText = document.getElementById("review").value;
+  const foodQuality = document.getElementById("food-quality").value;
+  const service = document.getElementById("service").value;
+  const atmosphere = document.getElementById("atmosphere").value;
 
-  const reviewsRef = collection(db, "reviews");
-  addDoc(reviewsRef, {
+  if (!restaurant || selectedRating === 0 || !foodQuality || !service || !atmosphere) {
+    statusDiv.innerText = "❗ Please complete all required fields.";
+    return;
+  }
+
+  const reviewData = {
     restaurant,
     review: reviewText,
+    rating: selectedRating,
+    foodQuality,
+    service,
+    atmosphere,
     user: auth.currentUser.email,
     timestamp: serverTimestamp()
-  }).then(() => {
+  };
+
+  const reviewsRef = collection(db, "reviews");
+  addDoc(reviewsRef, reviewData).then(() => {
     statusDiv.innerText = "✅ Review submitted!";
     document.getElementById("restaurant").value = "";
     document.getElementById("review").value = "";
+    document.getElementById("food-quality").value = "";
+    document.getElementById("service").value = "";
+    document.getElementById("atmosphere").value = "";
+    selectedRating = 0;
+    highlightStars(0);
   }).catch(err => {
     statusDiv.innerText = err.message;
   });
 }
+
 
 // Expose functions to window so buttons work
 window.googleLogin = googleLogin;
