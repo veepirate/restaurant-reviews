@@ -42,13 +42,6 @@ function logout() {
   });
 }
 
-const select = document.getElementById("restaurant");
-const otherInput = document.getElementById("restaurant-other");
-
-select.addEventListener("change", () => {
-  otherInput.style.display = select.value === "other" ? "block" : "none";
-});
-
 import { getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const restaurantSelect = document.getElementById("restaurant");
