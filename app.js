@@ -42,6 +42,44 @@ function logout() {
   });
 }
 
+const select = document.getElementById("restaurant");
+const otherInput = document.getElementById("restaurant-other");
+
+select.addEventListener("change", () => {
+  otherInput.style.display = select.value === "other" ? "block" : "none";
+});
+
+
+import { getDocs, collection } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+async function loadRestaurantOptions() {
+  const snapshot = await getDocs(collection(db, "reviews"));
+
+  const restaurantSet = new Set();
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    if (data.restaurant) {
+      restaurantSet.add(data.restaurant.trim());
+    }
+  });
+
+  const restaurantSelect = document.getElementById("restaurant");
+  Array.from(restaurantSet).sort().forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.innerText = name;
+    restaurantSelect.appendChild(option);
+  });
+
+  const otherOption = document.createElement("option");
+    otherOption.value = "other";
+    otherOption.innerText = "➕ Other...";
+    restaurantSelect.appendChild(otherOption);
+}
+
+loadRestaurantOptions();
+
+
 // Add variable to hold user
 let currentUser = null;
 
@@ -60,7 +98,9 @@ onAuthStateChanged(auth, user => {
 
 // ✍️ Submit review
 function submitReview() {
-  const restaurant = document.getElementById("restaurant").value;
+  const restaurant = restaurantSelect.value === "other"
+  ? otherInput.value.trim()
+  : restaurantSelect.value;
   const reviewText = document.getElementById("review").value;
   const foodQuality = document.getElementById("food-quality").value;
   const service = document.getElementById("service").value;
