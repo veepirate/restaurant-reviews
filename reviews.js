@@ -32,7 +32,12 @@ async function loadReviews() {
     reviewDiv.innerHTML = `
       <h3>${data.restaurant}</h3>
       <div class="stars">${stars}</div>
-      <div class="meta">By: ${data.user} — ${data.timestamp?.toDate().toLocaleString() || "Unknown date"}</div>
+      <div class="meta">
+        ${data.user?.photo ? `<img src="${data.user.photo}" alt="profile" class="profile-pic">` : ""}
+        <strong>${data.user?.name || "Anonymous"}</strong> • ${data.user?.email}
+        <br>
+        <small>${data.timestamp?.toDate().toLocaleString() || "Unknown date"}</small>
+      </div>
       <div class="detail"><strong>Food Quality:</strong> ${data.foodQuality}</div>
       <div class="detail"><strong>Service:</strong> ${data.service}</div>
       <div class="detail"><strong>Atmosphere:</strong> ${data.atmosphere}</div>
