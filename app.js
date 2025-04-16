@@ -42,12 +42,17 @@ function logout() {
   });
 }
 
+// Add variable to hold user
+let currentUser = null;
+
 // 👀 Show review form when logged in
 onAuthStateChanged(auth, user => {
   if (user) {
+    currentUser = user; // ✅ Store the signed-in user
     reviewForm.style.display = "block";
     statusDiv.innerText = `Logged in as ${user.displayName}`;
   } else {
+    currentUser = null;
     reviewForm.style.display = "none";
     statusDiv.innerText = "Logged out";
   }
@@ -66,16 +71,25 @@ function submitReview() {
     return;
   }
 
-  const reviewData = {
-    restaurant,
-    review: reviewText,
-    rating: selectedRating,
-    foodQuality,
-    service,
-    atmosphere,
-    user: auth.currentUser.email,
-    timestamp: serverTimestamp()
-  };
+if (!currentUser) {
+  statusDiv.innerText = "❗ You must be logged in to submit a review.";
+  return;
+}
+
+const reviewData = {
+  restaurant,
+  review: reviewText,
+  rating: selectedRating,
+  foodQuality,
+  service,
+  atmosphere,
+  user: {
+    email: currentUser.email,
+    name: currentUser.displayName,
+    photo: currentUser.photoURL
+  },
+  timestamp: serverTimestamp()
+};
 
   const reviewsRef = collection(db, "reviews");
   addDoc(reviewsRef, reviewData).then(() => {
