@@ -1,5 +1,5 @@
 // Paste your Firebase config here ↓
-const firebaseConfig = {    apiKey: "AIzaSyDf0IbhEaZnjcX16_Hf09jZZW-JfPPu1lI",
+const firebaseConfig = {apiKey: "AIzaSyDf0IbhEaZnjcX16_Hf09jZZW-JfPPu1lI",
                         authDomain: "restaurant-reviews-e9545.firebaseapp.com",
                         projectId: "restaurant-reviews-e9545",
                         storageBucket: "restaurant-reviews-e9545.firebasestorage.app",
@@ -14,26 +14,16 @@ const statusDiv = document.getElementById("status");
 const reviewForm = document.getElementById("review-form");
 
 // Auth handlers
-function signUp() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  auth.createUserWithEmailAndPassword(email, password)
-    .then(user => {
-      statusDiv.innerText = `Signed up as ${user.user.email}`;
+function googleLogin() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .then(result => {
+      statusDiv.innerText = `Logged in as ${result.user.displayName}`;
     })
-    .catch(err => statusDiv.innerText = err.message);
+    .catch(err => {
+      statusDiv.innerText = err.message;
+    });
 }
-
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  auth.signInWithEmailAndPassword(email, password)
-    .then(user => {
-      statusDiv.innerText = `Logged in as ${user.user.email}`;
-    })
-    .catch(err => statusDiv.innerText = err.message);
-}
-
 function logout() {
   auth.signOut().then(() => {
     statusDiv.innerText = "Logged out";
