@@ -11,14 +11,11 @@
 <body>
   <h1>🍽️ Restaurant Reviews</h1>
 
-  <!-- Login Form -->
-  <div id="auth">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="signUp()">Sign Up</button>
-    <button onclick="login()">Login</button>
-    <button onclick="logout()">Logout</button>
-  </div>
+<!-- Google Login -->
+<div id="auth">
+  <button onclick="googleLogin()">Login with Google</button>
+  <button onclick="logout()">Logout</button>
+</div>
 
   <!-- Review Form (Only shows if logged in) -->
   <div id="review-form" style="display:none;">
