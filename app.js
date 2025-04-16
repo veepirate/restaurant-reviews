@@ -111,7 +111,10 @@ onAuthStateChanged(auth, user => {
 });
 
 // ✍️ Submit review
-function submitReview() {
+async function submitReview() {
+  const restaurantSelect = document.getElementById("restaurant");
+  const otherInput = document.getElementById("restaurant-other");
+
   const selected = restaurantSelect.value;
   const restaurant = selected === "other" ? otherInput.value.trim() : selected;
   const reviewText = document.getElementById("review").value;
@@ -124,15 +127,15 @@ function submitReview() {
     return;
   }
 
-if (!currentUser) {
-  statusDiv.innerText = "❗ You must be logged in to submit a review.";
-  return;
-}
+  if (!currentUser) {
+    statusDiv.innerText = "❗ You must be logged in to submit a review.";
+    return;
+  }
 
-if (!restaurant) {
-  alert("Please select or enter a restaurant.");
-  return;
-}
+  if (selected === "other" && restaurant) {
+    await addDoc(collection(db, "restaurants"), { name: restaurant });
+  }
+
 
 
 const reviewData = {
@@ -153,6 +156,8 @@ const reviewData = {
   const reviewsRef = collection(db, "reviews");
   addDoc(reviewsRef, reviewData).then(() => {
     statusDiv.innerText = "✅ Review submitted!";
+    document.getElementById("restaurant-other").value = "";
+  document.getElementById("restaurant-other").style.display = "none";
     document.getElementById("restaurant").value = "";
     document.getElementById("review").value = "";
     document.getElementById("food-quality").value = "";
