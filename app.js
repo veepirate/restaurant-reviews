@@ -53,28 +53,22 @@ select.addEventListener("change", () => {
 import { getDocs, collection } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 async function loadRestaurantOptions() {
-  const snapshot = await getDocs(collection(db, "reviews"));
-
-  const restaurantSet = new Set();
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    if (data.restaurant) {
-      restaurantSet.add(data.restaurant.trim());
-    }
-  });
+  const snapshot = await getDocs(collection(db, "restaurants"));
 
   const restaurantSelect = document.getElementById("restaurant");
-  Array.from(restaurantSet).sort().forEach(name => {
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
     const option = document.createElement("option");
-    option.value = name;
-    option.innerText = name;
+    option.value = data.name;
+    option.innerText = data.name;
     restaurantSelect.appendChild(option);
   });
 
   const otherOption = document.createElement("option");
-    otherOption.value = "other";
-    otherOption.innerText = "➕ Other...";
-    restaurantSelect.appendChild(otherOption);
+  otherOption.value = "other";
+  otherOption.innerText = "➕ Other...";
+  restaurantSelect.appendChild(otherOption);
 }
 
 loadRestaurantOptions();
@@ -101,6 +95,12 @@ function submitReview() {
   const restaurant = restaurantSelect.value === "other"
   ? otherInput.value.trim()
   : restaurantSelect.value;
+
+// Optional: Save new restaurant to collection
+if (restaurantSelect.value === "other" && restaurant) {
+  await addDoc(collection(db, "restaurants"), { name: restaurant });
+}
+
   const reviewText = document.getElementById("review").value;
   const foodQuality = document.getElementById("food-quality").value;
   const service = document.getElementById("service").value;
