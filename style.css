@@ -1,0 +1,109 @@
+/* === Global Styles === */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 2rem;
+    background-color: #fef6f9;
+    color: #333;
+  }
+  
+  h1, h2, h3 {
+    color: #6d6875;
+  }
+  
+  a {
+    text-decoration: none;
+    background-color: #b8c0ff;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  a:hover {
+    background-color: #9aa1e5;
+  }
+  
+  /* === Containers === */
+  #auth, #review-form, #reviews-container {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    max-width: 500px;
+    margin: auto;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  
+  /* === Form Inputs === */
+  input, textarea, select {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff0f5;
+  }
+  
+  button {
+    background-color: #ffb5a7;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color 0.2s;
+  }
+  
+  button:hover {
+    background-color: #f28b82;
+  }
+  
+  /* === Star Ratings === */
+  #stars span {
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #ccc;
+  }
+  
+  #stars span.hovered,
+  #stars span.selected {
+    color: #ffc6ff;
+  }
+  
+  /* === Review Cards === */
+  .review {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .review .stars {
+    color: #ffadad;
+    font-size: 1.2rem;
+  }
+  
+  .review .meta {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+  
+  .review .detail {
+    margin: 0.3rem 0;
+  }
+  
+  /* === Profile Picture === */
+  .profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  
