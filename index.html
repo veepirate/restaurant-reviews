@@ -1,1 +1,33 @@
-Hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurant Reviews</title>
+  <script defer src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <h1>🍽️ Restaurant Reviews</h1>
+
+  <!-- Login Form -->
+  <div id="auth">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="signUp()">Sign Up</button>
+    <button onclick="login()">Login</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <!-- Review Form (Only shows if logged in) -->
+  <div id="review-form" style="display:none;">
+    <h2>Leave a Review</h2>
+    <input type="text" id="restaurant" placeholder="Restaurant Name">
+    <textarea id="review" placeholder="Your review here..."></textarea>
+    <button onclick="submitReview()">Submit</button>
+  </div>
+
+  <div id="status"></div>
+</body>
+</html>
