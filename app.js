@@ -40,6 +40,17 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+auth.onAuthStateChanged(user => {
+  if (user) {
+    reviewForm.style.display = "block";
+    statusDiv.innerHTML = `Logged in as ${user.displayName}`;
+  } else {
+    reviewForm.style.display = "none";
+    statusDiv.innerText = "Logged out";
+  }
+});
+
+
 // Submit review
 function submitReview() {
   const restaurant = document.getElementById("restaurant").value;
